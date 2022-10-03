@@ -1,0 +1,105 @@
+import java.util.ArrayList;
+
+public class mainConsole {
+	
+	public static void main(String args[])
+	{
+		//Data From analytics
+		ArrayList<String> scanLog = new ArrayList<String>();
+		//Error Log
+		ArrayList<String> errorAnalysisLog = new ArrayList<String>();
+
+		boolean isErrorPresent = false;
+		
+
+		
+		//Case 1: {Open - Close} [Correct Input] 
+		scanLog.add("Open");
+		scanLog.add("Close");
+		scanLog.add("Open");
+		scanLog.add("Close");
+		scanLog.add("Open");
+		scanLog.add("Close");
+		scanLog.add("Open");
+		scanLog.add("Close");
+		scanLog.add("Open");
+		scanLog.add("Close");
+
+		
+		//If the data from analysis is incomplete then add a "missing" placeholder
+		if(!(scanLog.size()%2==0))
+		{
+			scanLog.add("Missing Statement");
+		}
+		
+		//Scan data from scanLog and then save all errors to errorAnalysisLog
+		for(int i = 0; i < scanLog.size(); i=i+2)
+		{
+			if(scanLog.get(i).equalsIgnoreCase("Open") && scanLog.get(i+1).equalsIgnoreCase("Close"))
+			{
+				errorAnalysisLog.add("Open");
+				errorAnalysisLog.add("Close");
+			}
+			else if(scanLog.get(i).equalsIgnoreCase("Close") && scanLog.get(i+1).equalsIgnoreCase("Close"))
+			{
+				errorAnalysisLog.add("*** ERROR: missing opening statement detected ***");
+				errorAnalysisLog.add("Close");
+				errorAnalysisLog.add("*** ERROR: missing opening statement detected ***");
+				errorAnalysisLog.add("Close");	
+				isErrorPresent = true;
+			}
+			else if(scanLog.get(i).equalsIgnoreCase("Open") && scanLog.get(i+1).equalsIgnoreCase("Open"))
+			{
+				errorAnalysisLog.add("Open");
+				errorAnalysisLog.add("*** ERROR: missing closing statement detected ***");
+				errorAnalysisLog.add("Open");
+				errorAnalysisLog.add("*** ERROR: missing closing statement detected ***");
+				isErrorPresent = true;
+			}
+			else if(scanLog.get(i).equalsIgnoreCase("Close") && scanLog.get(i+1).equalsIgnoreCase("Opens"))
+			{
+				errorAnalysisLog.add("Close");
+				errorAnalysisLog.add("*** ERROR: missing opening statement detected ***");
+				errorAnalysisLog.add("Open");
+				errorAnalysisLog.add("*** ERROR: missing closing statement detected ***");
+				isErrorPresent = true;
+			}
+			else if(scanLog.get(i).equalsIgnoreCase("Open") && scanLog.get(i+1).equalsIgnoreCase("Missing Statement"))
+			{
+				errorAnalysisLog.add("Open");
+				errorAnalysisLog.add("*** ERROR: missing closing statement detected ***");
+				isErrorPresent = true;
+			}
+			else
+			{
+				errorAnalysisLog.add("*** ERROR: missing opening statement detected ***");
+				errorAnalysisLog.add("Close");
+				isErrorPresent = true;
+			}
+		}
+		
+		System.out.println("");
+		if(isErrorPresent)
+		{
+			System.out.println("PRINTING OUT ERROR STATEMENT:");
+		}
+		else
+		{
+			System.out.println("PRINTING OUT LOG:");
+		}
+		System.out.println("-----------------------------------------------------");
+		for(int i = 0; i < errorAnalysisLog.size(); i++)
+		{
+			System.out.println(errorAnalysisLog.get(i));
+		}
+		
+		System.out.println("");
+		System.out.println("PRINTING OUT ORIGINAL LOG");
+		System.out.println("-----------------------------------------------------");
+		for(int i =  0; i < scanLog.size(); i++)
+		{
+			System.out.println(scanLog.get(i));
+		}
+		
+	}	
+}

@@ -1,0 +1,54 @@
+package tabbedDemo;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTabbedPane;
+import javax.swing.JScrollPane;
+import java.awt.TextArea;
+
+public class tabbedInterface extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					tabbedInterface frame = new tabbedInterface();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public tabbedInterface() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 358, 397);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(12, 13, 321, 252);
+		contentPane.add(tabbedPane);
+		
+		TextArea textArea1 = new TextArea("",10,10,TextArea.SCROLLBARS_VERTICAL_ONLY);		
+		tabbedPane.addTab("New tab", null, textArea1, null);
+		
+		TextArea textArea2 = new TextArea("",10,10,TextArea.SCROLLBARS_VERTICAL_ONLY);
+		tabbedPane.addTab("New tab", null, textArea2, null);
+	}
+}

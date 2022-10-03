@@ -1,0 +1,129 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+
+import javax.swing.JFileChooser;
+
+public class FileMethods {
+	public static void main(String[] args) throws IOException
+	{
+		//Desktop Directory
+		String filePathString = "C:\\Users\\Austin\\Desktop\\option.json";
+		String filePathToDesktop = "C:\\Users\\Austin\\Desktop\\";
+		
+		
+		//Check the Desktop directory for the file "option.json" and print weather it exists or not...
+		System.out.println("");
+		System.out.println("*** Checking Desktop for options.json ***");
+		System.out.println("---------------------------------------------------");
+		File f = new File(filePathString);
+		if(f.exists() && !f.isDirectory()) 
+		{ 
+			System.out.println("Result: ***File Found***");
+		}
+		else
+		{
+			System.out.println("Error: option.json File not found in directory");
+		}
+		System.out.println("---------------------------------------------------");
+		
+		
+		//Scan the desktop directory and print all file present
+		System.out.println("");
+		System.out.println("");
+		System.out.println("*** printing all file in the Desktop directory ***");
+		System.out.println("---------------------------------------------------");
+		File folder = new File(filePathToDesktop);
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+		  if (listOfFiles[i].isFile()) {
+		    System.out.println("File " + listOfFiles[i].getName());
+		  } else if (listOfFiles[i].isDirectory()) {
+		    System.out.println("Directory " + listOfFiles[i].getName());
+		  }
+		}
+		System.out.println("");
+		System.out.println("");
+		System.out.println("---------------------------------------------------");		
+		System.out.println("\t\tPrinting Contents of File:");
+		System.out.println("---------------------------------------------------");			
+		
+		
+		//Scan the options.json and print the text
+		File file = new File("C:\\Users\\Austin\\Desktop\\editMeWithJava.txt");
+		try (FileInputStream fis = new FileInputStream(file)) {
+ 			int content;
+			while ((content = fis.read()) != -1) {
+				// convert to char and display it
+				System.out.print((char) content);
+			} 
+		} catch (IOException e) {
+			//e.printStackTrace();
+			System.out.println("File Not Found - Result not printed...");
+		}
+		System.out.println("");
+		System.out.println("---------------------------------------------------");			
+		System.out.println("");
+		
+		//Rewrite contents of a file
+		/*
+		System.out.println("");
+		System.out.println("---------------------------------------------------");
+		System.out.println("\t\tWriting to file");
+		System.out.println("---------------------------------------------------");		
+	    FileWriter fileWriter = new FileWriter("C:\\Users\\Austin\\Desktop\\editMeWithJava.txt");
+	    PrintWriter printWriter = new PrintWriter(fileWriter);
+	    printWriter.print("rewrite success....the prior output has been replaced...");
+	    printWriter.close();  */
+	      try 
+	      {
+	          String content = "This is a test string for the file writing function";
+	          File fileObject = new File("C:\\Users\\Austin\\Desktop\\editMeWithJava.txt");
+	          if (!fileObject.exists()) 
+	          {
+	        	  fileObject.createNewFile();
+	          } 
+	          FileWriter fw = new FileWriter(fileObject.getAbsoluteFile());
+	          BufferedWriter bw = new BufferedWriter(fw);
+	          bw.write(content);
+	          bw.close();
+	          
+	          System.out.println("Done");
+	          } 
+	      catch (IOException e) 
+	      {
+	          e.printStackTrace();
+	      } 
+		
+
+		
+		
+	    //File Choosing Algorithm
+	    System.out.println("");
+	    JFileChooser chooser = new JFileChooser();
+	    //chooser.setCurrentDirectory(new java.io.File("."));
+	    chooser.setDialogTitle("Please Choose the directory that has the json file");
+	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    chooser.setAcceptAllFileFilterUsed(false);
+
+	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+	      System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+	      System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+	    } else 
+	    {
+	      System.out.println("No Selection ");
+	    }
+
+	}
+
+
+}

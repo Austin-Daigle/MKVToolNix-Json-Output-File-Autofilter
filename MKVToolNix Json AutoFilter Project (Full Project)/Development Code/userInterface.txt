@@ -1,0 +1,63 @@
+import javax.swing.JOptionPane;
+
+public class userInterface {
+	
+	public static jsonFilter filterObject = new jsonFilter();
+	
+	public static void main(String[] args)
+	{
+		//String givenInput = JOptionPane.showInputDialog("Paste in your .json script: ",JOptionPane.QUESTION_MESSAGE);
+		
+		String givenInput = "[\r\n" + 
+				"  \"--ui-language\",\r\n" + 
+				"  \"en\",\r\n" + 
+				"  \"--output\",\r\n" + 
+				"  \"/bin/Users\\Austin\\Desktop\\Batch-to-mkv\\News ...Now We Have to Solve It (TFM 42O) (1).mkv\",\r\n" + 
+				"  \"--language\",\r\n" + 
+				"  \"0:und\",\r\n" + 
+				"  \"--default-track\",\r\n" + 
+				"  \"0:yes\",\r\n" + 
+				"  \"--language\",\r\n" + 
+				"  \"1:und\",\r\n" + 
+				"  \"--default-track\",\r\n" + 
+				"  \"1:yes\",\r\n" + 
+				"  \"(\",\r\n" + 
+				"  \"C:\\Users\\Austin\\Desktop\\Batch-to-mkv\\News ...Now We Have to Solve It (TFM 42O).dtshd\",\r\n" + 
+				"  \")\",\r\n" + 
+				"  \"--language\",\r\n" + 
+				"  \"0:eng\",\r\n" + 
+				"  \"(\",\r\n" + 
+				"  \"C:\\Users\\Austin\\Desktop\\Batch-to-mkv\\News Child Custody Gap (TFM 42O).mkv\",\r\n" + 
+				"  \")\",\r\n" + 
+				"  \"--language\",\r\n" + 
+				"  \"0:und\",\r\n" + 
+				"  \"--language\",\r\n" + 
+				"  \"1:und\",\r\n" + 
+				"  \"(\",\r\n" + 
+				"  \"D:\\Users\\Austin\\Desktop\\Batch-to-mkv\\News The Ruling Class (TFM 42O).mkv\",\r\n" + 
+				"  \")\",\r\n" + 
+				"  \"--language\",\r\n" + 
+				"  \"0:und\",\r\n" + 
+				"  \"--language\",\r\n" + 
+				"  \"1:und\",\r\n" + 
+				"  \"(\",\r\n" + 
+				"  \"/root/Users\\Austin\\Desktop\\Batch-to-mkv\\News You Can't Win (TFM 42O).mkv\",\r\n" + 
+				"  \")\",\r\n" + 
+				"  \"--track-order\",\r\n" + 
+				"  \"0:0,0:1,1:0,2:0,2:1,3:0,3:1\"\r\n" + 
+				"]";
+		
+		
+
+		System.out.println(jsonFilter.cleanJsonScript(givenInput));
+		System.out.println("========================"
+				+ "================================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "===");
+
+	
+	}
+}

@@ -1,0 +1,82 @@
+	    // create the middle panel components
+	    JPanel middlePanel = new JPanel ();
+	    middlePanel.setBorder(new TitledBorder(new EtchedBorder(),"Display Area"));
+	    
+	    //create text box object
+	    JTextArea display = new JTextArea(14,40);
+	    display.setLineWrap(true);
+	    display.setWrapStyleWord(true);
+	    display.setText("");
+
+	    //Create scroll object
+	    JScrollPane scroll = new JScrollPane(display);
+	    scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	    middlePanel.add(scroll);
+
+		JButton pasteFromClipboardButton = new JButton("Paste From Clipboard");
+		pasteFromClipboardButton.setBounds(15, 265, 170, 50);
+		//pasteFromClipboardButton.setBackground(Color.LIGHT_GRAY);
+		//filterTextButton2.setBounds(x, y, width, height);
+	    
+		JButton clearAllTextButton = new JButton("Clear All [X]");
+		//clearAllTextButton.setBackground(Color.LIGHT_GRAY);
+		//clearAllTextButton.setBackground(Color.RED);
+		clearAllTextButton.setBounds(15+180, 265, 120, 50);
+
+		JButton submitTextButton = new JButton("OK");
+		submitTextButton.setBounds(15+310, 265, 145, 50);
+		submitTextButton.setEnabled(false);
+		
+	    // My code
+	  	JFrame textInputFrame = new JFrame();
+		//textInputFrame.getContentPane().setLayout(null);
+	  	textInputFrame.add(submitTextButton);
+	  	textInputFrame.add(clearAllTextButton);
+	  	textInputFrame.add(pasteFromClipboardButton);
+	  	textInputFrame.setSize(500, 380);
+	    textInputFrame.add(middlePanel);
+	    textInputFrame.setLocationRelativeTo(null);
+	    textInputFrame.setVisible(true);
+	    
+	    
+	    display.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				System.out.println("input found...");
+				if(display.getText().length()<=0)
+				{
+					System.out.println(display.getText().length()+": NO Text Found");
+					submitTextButton.setEnabled(false);
+				}
+				else
+				{
+					System.out.println(display.getText().length()+": Text Found");
+					submitTextButton.setEnabled(true);
+				}
+			}
+		});
+	    	    
+	    pasteFromClipboardButton.addActionListener(new ActionListener()
+	    {
+			public void actionPerformed(ActionEvent arg0)
+			{
+				//paste from clipboard();
+				//display.setText(display.getText()+"clipboard");
+			}
+		});
+
+	    clearAllTextButton.addActionListener(new ActionListener()
+	    {
+			public void actionPerformed(ActionEvent arg0)
+			{
+				display.setText("");
+			}
+		});
+	    
+	    submitTextButton.addActionListener(new ActionListener()
+	    {
+			public void actionPerformed(ActionEvent arg0)
+			{
+				
+			}
+		});

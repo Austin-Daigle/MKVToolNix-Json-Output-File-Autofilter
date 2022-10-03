@@ -1,0 +1,45 @@
+Supported Formats for MKVToolNix:
+
+Video Formats:
+============================================================================
+MKV: .mkv, .webm
+AVI: .avi
+MP4: .mp4, .m4p, .m4v .3gp, .3g2, .m4b
+MPEG4: .flv
+MPEG-1: .mpg, .mp2, .mpeg, .mpe, .mpv
+MPEG-2: .m2v, .vob, 
+OGG/OGM: .ogv, .ogg
+RealVideo: .rm, .rmvb, .DTSHD
+
+
+
+
+
+
+
+Audio formats:
+============================================================================ 
+MP3: .mp3
+MP2: .mp2
+AAC: .aac
+FLAC: .flac
+(E)AC3: .ac3
+DTS/DTS-HD: .dts .dtshd
+Vorbis: .ogg, .ogv, .oga, .ogx, .ogm, .spx, .opus
+RealAudio: .ra, .ram
+
+
+Subtitle formats: 
+============================================================================
+SRT: .srt
+PGS/SUP: .pgs, .sup 
+VobSub: .idx, .sub
+ASS and SSA: .ass, .ssa
+
+Photo Format:
+============================================================================
+.jpeg
+.png
+.gif
+.bmp
+

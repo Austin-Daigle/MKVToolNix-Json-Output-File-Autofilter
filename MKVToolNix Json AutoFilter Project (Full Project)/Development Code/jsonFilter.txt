@@ -1,0 +1,317 @@
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+public class jsonFilter {
+	public static String cleanJsonScript(String givenInput)
+	{
+		//version 1.1 a
+		//Create ArrayList Databases
+		ArrayList<Integer> drivePathIndex = new ArrayList<Integer>(); // raw unordered input of opening statements
+		ArrayList<Integer> fileExtensionIndex = new ArrayList<Integer>(); // raw unordered input of closing statements	
+		ArrayList<String> drivePathDatabase = new ArrayList<String>(); //store the type of directory 	
+		ArrayList<String> fileExtensionDatabase = new ArrayList<String>(); //store the type of directory 			
+
+	    TreeMap<Integer, String> drivePathMap = new TreeMap<>();
+	    TreeMap<Integer, String> fileExtensionMap = new TreeMap<>();
+
+		//Create standard operating variables
+		String drivePath = "";
+		String fileExtension = "";
+
+		//Print the .json input
+		System.out.println("\t\t\t\t\t\t\t\t\tPaste Input");
+		System.out.println("========================"
+				+ "================================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "===");
+		System.out.println(givenInput);
+		System.out.println("=================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "===============");
+		System.out.println("");
+	
+		System.out.println("*** Replacing all instance of back slashes to forward slashes to resolve Java Errors ***");
+		System.out.println("*** Scanning for all possible MicroSoft Windows drive letters ***");
+		givenInput = givenInput.replaceAll("\\\\", "/");
+		//Change all double backslashes to a single forward slash to prevent java errors
+		// Inverse of the statement above: 		givenInput = givenInput.replaceAll("//", "\\\\");
+		
+		//remove all spaces from the .json input
+		givenInput = givenInput.replaceAll("\\s", "");
+		
+		System.out.println("\t\t\t\t\t\t\t\tError-Corrected Pre-Filtered Input");
+		System.out.println("========================"
+				+ "================================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "===");
+		System.out.println(givenInput);
+		System.out.println("=================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "===============");
+
+
+		String[] allSupportedFileExtensions = 
+			{
+				//All Supported Video Formats
+				".mkv",".webm",".mp4",".m4p",".3gp",".3g2",
+				".m4b",".flv",".mpg",".mp2",".mpeg",".mpv",
+				".m2v",".vob",".ogv",".ogg",".rm",".rmvb",
+				".ogx",
+				//All Supported Audio Formats
+				".mp3",".mp2",".aac",".flac",".ac3",".dts",
+				".dtshd",".ogm",".spx",".opus",
+				".spx",".opus",
+				//All Supported Subtitles 
+				".srt",".pgs",".sup",".idx",".sub",".ass",
+				".ssa",
+				//All Supported Picture Formats
+				".jpeg",".png",".gif",".bmp"
+			};
+		
+		String[] allSupportedLinuxDirectoryPaths = 
+			{
+			//Supported Linux Root Path 	
+				"/bin/","/boot/","/dev/","/etc/","/home/","/lib/","/media/",
+				"/mnt/","/opt/","/sbin/","/srv/","/tmp/","/usr/","/var/",
+				"/root/","/proc/",
+			};		
+		
+		String[] windowsDirectoryLetters = 
+			{
+			//Supported Windows Drive Path Letters
+				"A:/", "B:/", "C:/", "D:/", "E:/", "F:/",
+				"G:/", "H:/", "I:/", "J:/", "K:/", "L:/",
+				"M:/", "N:/", "O:/", "P:/", "Q:/", "R:/",
+				"S:/", "T:/", "U:/", "V:/", "W:/", "X:/",
+				"Y:/", "Z:/",	
+			};
+		
+		//Create all Windows OS Drive Letter and pass into verifyAndIndexDrivePaths();
+		for(int i = 0; i < windowsDirectoryLetters.length; i++)
+		{
+			drivePath = windowsDirectoryLetters[i];
+			System.out.println("Windows Path: "+drivePath+"");
+			verifyAndIndexDrivePaths(givenInput,drivePath,drivePathIndex,drivePathDatabase,drivePathMap);
+		}
+		//Create all Linux Drive Directories and pass into verifyAndIndexDrivePaths();
+		for(int i = 0; i <allSupportedLinuxDirectoryPaths.length; i++)
+		{
+			drivePath = allSupportedLinuxDirectoryPaths[i];
+			System.out.println("Linux Path: "+drivePath+"");
+			verifyAndIndexDrivePaths(givenInput,drivePath,drivePathIndex,drivePathDatabase,drivePathMap);
+		}
+		
+		
+		//AutoSort drive path index
+		Collections.sort(drivePathIndex);
+		//Print all drive path letters and their indices
+	////	printdrivePathIndex(givenInput,drivePath,drivePathIndex,drivePathDatabase);
+
+
+		//Create File Extension and pass to method
+		for(int i =0; i < allSupportedFileExtensions.length; i++)
+		{
+			fileExtension = allSupportedFileExtensions[i]+"\",";
+			System.out.println("Scanning for file extension: "+allSupportedFileExtensions[i]+"");
+			verifyAndIndexFileExtensions(givenInput,fileExtension,fileExtensionIndex,fileExtensionDatabase,fileExtensionMap);
+		}
+
+		Collections.sort(fileExtensionIndex);
+		//Print all file extension indices
+	////	printFileExtIndex(givenInput,fileExtension,fileExtensionIndex,drivePathDatabase);
+		//ArrayList DataBase check
+		resultErrorCheck(drivePathIndex,fileExtensionIndex);
+		
+		convertMapstoDatabases(drivePathMap,fileExtensionMap,drivePathDatabase,fileExtensionDatabase);
+		return filterJsonScript(givenInput,drivePathIndex,drivePathDatabase,fileExtensionIndex,fileExtensionDatabase);
+	//<Integer, String> drivePathMap,TreeMap<Integer, String> fileExtensionMap
+	}
+	@SuppressWarnings("rawtypes")
+	public static void convertMapstoDatabases(TreeMap<Integer, String> drivePathMap,TreeMap<Integer, String> fileExtensionMap,
+			ArrayList<String> drivePathDatabase, ArrayList<String> fileExtensionDatabase)
+	{
+	      for(Map.Entry x:drivePathMap.entrySet())  
+	      {  
+	          //System.out.println(x.getKey()+" "+x.getValue());
+	          drivePathDatabase.add((String) x.getValue());
+	      }
+	      
+	      for(Map.Entry x:fileExtensionMap.entrySet())  
+	      {  
+	          //System.out.println(x.getKey()+" "+x.getValue());
+	    	  fileExtensionDatabase.add((String) x.getValue());
+	      }
+	}
+
+	public static void verifyAndIndexDrivePaths(String givenInput,String drivePath,ArrayList<Integer> drivePathIndex,
+			ArrayList<String> drivePathDatabase,TreeMap<Integer, String> drivePathMap)
+	{
+		//scanAndIndexDrivePaths(givenInput,drivePath,drivePathIndex,drivePathDatabase,drivePathMethodMap);
+		//Index all instances of possible Windows Drive Path Letters
+		int lastIndexOfDrivePath = 0;		
+		while(!(lastIndexOfDrivePath == -1))
+		{
+			lastIndexOfDrivePath = givenInput.indexOf(drivePath,lastIndexOfDrivePath);	    
+		    if(!(lastIndexOfDrivePath == -1))
+		    {
+		    	lastIndexOfDrivePath = lastIndexOfDrivePath + drivePath.length();
+		    	drivePathIndex.add(lastIndexOfDrivePath);
+		    	drivePathMap.put(lastIndexOfDrivePath, drivePath);
+		    	//add map .put () here
+		    }
+		}
+	}
+	
+	public static void verifyAndIndexFileExtensions(String givenInput,String fileExtension,ArrayList<Integer> fileExtensionIndex,
+			ArrayList<String> fileExtensionDatabase,TreeMap<Integer, String> fileExtensionMap)
+	{
+		//verifyAndIndexFileExtensions(givenInput,fileExtension,fileExtensionIndex,fileExtensionDatabase,fileExtensionMap);
+		//Index all instances of supported File Extensions
+		int lastIndexOfFileExt = 0;		
+		while(!(lastIndexOfFileExt == -1))
+		{
+			lastIndexOfFileExt = givenInput.indexOf(fileExtension,lastIndexOfFileExt);	    
+		    if(!(lastIndexOfFileExt == -1))
+		    {
+		    	lastIndexOfFileExt = lastIndexOfFileExt + fileExtension.length();
+		    	fileExtensionIndex.add(lastIndexOfFileExt);
+		    	fileExtensionMap.put(lastIndexOfFileExt, fileExtension);
+		    }
+		}
+	}
+	
+	public static void printdrivePathIndex(String givenInput,String drivePath,ArrayList<Integer> drivePathIndex,
+			ArrayList<String> drivePathDatabase)
+	{
+		//Print Status of Drive Path Index
+		System.out.println("");
+		System.out.println("*** Scanning Indexes of Drive Path Letters ***");
+		for(int i = 0; i < drivePathIndex.size(); i++) 
+		{
+			//System.out.println(givenInput.substring(drivePathIndex.get(i)-drivePath.length(),drivePathIndex.get(i)));
+			System.out.println("Entry: "+i+" | Index: "+drivePathIndex.get(i)+" | Drive Path: "
+				+givenInput.substring(drivePathIndex.get(i)-drivePath.length(),drivePathIndex.get(i)));
+		}	
+		System.out.println("");
+	}
+	
+
+	
+	public static void printFileExtIndex(String givenInput,String fileExtension,ArrayList<Integer> fileExtensionIndex,
+			ArrayList<String> drivePathDatabase)
+	{
+		//Print Status of Drive Path Index
+		System.out.println("");
+		System.out.println("*** Scanning Indexes of File Extensions ***");
+		for(int i = 0; i < fileExtensionIndex.size(); i++) 
+		{
+			//System.out.println(givenInput.substring(drivePathIndex.get(i)-drivePath.length(),drivePathIndex.get(i)));
+			System.out.println("Entry: "+i+" | Index: "+fileExtensionIndex.get(i)+" | File Extension: "
+				+givenInput.substring(fileExtensionIndex.get(i)-fileExtension.length(),fileExtensionIndex.get(i)));
+		}
+	}
+	
+	//Technically a non-essential function
+	public static void resultErrorCheck(ArrayList<Integer> drivePathIndex,ArrayList<Integer> fileExtensionIndex)
+	{
+		//Database Inequality Error Check
+		if(drivePathIndex.size()>fileExtensionIndex.size())
+		{
+			System.out.println("[!] ERROR: MISSING/INVALID OPENING STATMENT OR DRIVE PATH. "
+					+ "PLEASE CHECK AND CORRECT RESOURCE DIRECTORY PATH(S).");
+		}
+		if(drivePathIndex.size()<fileExtensionIndex.size())
+		{
+			System.out.print("[!] ERROR: MISSING/INVALID OPENING STATMENT OR DRIVE PATH. "
+					+ "PLEASE CHECK AND CORRECT ENDING STATEMENT OR FILE EXTENSION.");
+		}
+	}
+
+	public static String filterJsonScript(String givenInput,ArrayList<Integer> drivePathIndex,ArrayList<String> drivePathDatabase,
+			ArrayList<Integer> fileExtensionIndex,ArrayList<String> fileExtensionDatabase)
+	{
+		String filteredJsonScriptOutput = givenInput;
+		String beginingQuote = "\"";
+		String endingQuote = "\",";		
+
+		System.out.println("");
+		System.out.println("");
+		System.out.println("==================================================================================");
+		System.out.println("\t\t>>> Printing all Ordered Drive Paths <<<");
+
+		for(int i = 0; i < drivePathIndex.size(); i++)
+		{
+			System.out.println("Entry: "+i+" | Index: "+drivePathIndex.get(i)+" | Drive Path: "+drivePathDatabase.get(i));
+		}
+		System.out.println("");
+
+
+		System.out.println("\t\t>>> Printing all Ordered File Extensions <<<");
+		for(int i = 0; i < drivePathIndex.size(); i++)
+		{
+			System.out.println("Entry: "+i+" | Index: "+fileExtensionIndex.get(i)+" | Drive Path: "+fileExtensionDatabase.get(i));
+		}
+		System.out.println("==================================================================================");		
+		System.out.println("");
+		
+		System.out.println("*** Removing all of the following directory path(s) from givenInput... ***");
+		System.out.println("----------------------------------------------------------------------------------");
+		for(int i = 0; i < drivePathIndex.size(); i++)
+		{
+			String replaceString = "";
+			System.out.println(
+					givenInput.substring(drivePathIndex.get(i)-((drivePathDatabase.get(i).length())+(beginingQuote.length())),
+					fileExtensionIndex.get(i)));
+			replaceString = givenInput.substring(drivePathIndex.get(i)-((drivePathDatabase.get(i).length())+(beginingQuote.length())),
+					fileExtensionIndex.get(i));
+
+			filteredJsonScriptOutput = filteredJsonScriptOutput.replace(replaceString, "");
+		}
+		System.out.println("----------------------------------------------------------------------------------");		
+		
+		System.out.println("");
+		System.out.println("*** Removing all instanced of \"--output\", from the givenInput... ***");
+		filteredJsonScriptOutput = filteredJsonScriptOutput.replace("\"--output\",", "");
+		System.out.println("*** Removing all instanced of \"(\",\")\", from givenInput... ***");
+		filteredJsonScriptOutput = filteredJsonScriptOutput.replace("\"(\",\")\",", "");		
+		filteredJsonScriptOutput = filteredJsonScriptOutput.replaceAll("//", "\\\\");
+		System.out.println("\t\t\t\t\t\t\t\t\tFiltered .Json Output");
+		System.out.println("========================"
+				+ "================================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "==========================="
+				+ "===");
+		return filteredJsonScriptOutput;
+
+	}
+	
+	
+	
+}
