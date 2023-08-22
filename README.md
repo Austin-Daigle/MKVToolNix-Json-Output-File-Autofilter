@@ -4,7 +4,7 @@ This program removes directories and conflicting .json code from the output.json
 # How to Use:
 * Ensure that [MKVToolNix](https://mkvtoolnix.download/downloads.html) is installed in your environment.
 * Download the executable jar file or compile the source code for the MKVToolNix AutoFilter Application.
-* Ensure that all 
+* Ensure all media assets, subtitles, and automation script(s) are included in the same directory.
 * Open MKVToolNix and load the media assets into the "source files" sub-window, then under the Multiplexer tab select "create option file" to
 make the options.json file.
 
