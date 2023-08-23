@@ -1,5 +1,5 @@
 # MKVToolNix-Json-Output-File-Autofilter
-This program removes directories and conflicting .json code (media directory data and "--output",) from the output.json file the MKVToolNix created. This is meant to assist in automating processing files through MKVToolNix with Windows Batch files by optimizing the output.json file for automation via batch script (The batch automation script in this project merges subtitles to its respective video file).
+This program removes directories and conflicting .json code (media directory data and "--output",) from the output.json file the MKVToolNix created. This is meant to assist in automating processing files through MKVToolNix with Windows Batch files by optimizing the output.json file for automation via [batch script](https://github.com/Austin-Daigle/MKVToolNix-Json-Output-File-Autofilter/blob/main/MKVToolNix%20Json%20AutoFilter%20Project%20(Full%20Project)/Batch%20Automation%20Scripts/batch-subtitles.bat) (The batch automation script in this project merges subtitles to its respective video file).
 
 # How to Use:
 * Ensure that [MKVToolNix](https://mkvtoolnix.download/downloads.html) is installed in your environment.
@@ -19,6 +19,6 @@ result log.
 ![image](https://github.com/Austin-Daigle/MKVToolNix-Json-Output-File-Autofilter/assets/100094056/acb5951a-9193-4031-b199-dd96f1e45ccd)
 ![image](https://github.com/Austin-Daigle/MKVToolNix-Json-Output-File-Autofilter/assets/100094056/fcca8638-ed8d-4539-8b36-4f479f066319)
 * The user can copy the result to the clipboard, close the program, or return to the main menu.
-* Finally, navigate to the directory containing the media assets, automation script, and options.json file and execute the batch script.
-* If setup correctly, the media assets (.mkv files) should have their respective .srt subtitles files merged into them.
+* Finally, navigate to the directory containing the media assets, automation script, and options.json file and execute the [batch script](https://github.com/Austin-Daigle/MKVToolNix-Json-Output-File-Autofilter/blob/main/MKVToolNix%20Json%20AutoFilter%20Project%20(Full%20Project)/Batch%20Automation%20Scripts/batch-subtitles.bat).
+* If set up correctly, the media assets (.mkv files) should have their respective .srt subtitles files merged into them.
 
